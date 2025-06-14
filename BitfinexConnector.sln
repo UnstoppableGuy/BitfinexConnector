@@ -5,6 +5,8 @@ VisualStudioVersion = 17.14.36310.24 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BitfinexConnector.UI", "BitfinexConnector.UI\BitfinexConnector.UI.csproj", "{5BA9EF16-26EA-4390-AB70-8703EAEAD89D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BitfinexConnector", "BitfinexConnector\BitfinexConnector.csproj", "{39485771-D01A-4039-B310-3B733552F463}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{5BA9EF16-26EA-4390-AB70-8703EAEAD89D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5BA9EF16-26EA-4390-AB70-8703EAEAD89D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5BA9EF16-26EA-4390-AB70-8703EAEAD89D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39485771-D01A-4039-B310-3B733552F463}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39485771-D01A-4039-B310-3B733552F463}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39485771-D01A-4039-B310-3B733552F463}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39485771-D01A-4039-B310-3B733552F463}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
