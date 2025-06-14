@@ -2,6 +2,7 @@ using BitfinexConnector.Clients;
 using BitfinexConnector.Interfaces;
 using BitfinexConnector.Mappers;
 using BitfinexConnector.Models;
+using BitfinexConnector.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddLogging();
 
+
+builder.Services.AddHttpClient<BitfinexExchange>();
 builder.Services.AddHttpClient<RestClient>(client =>
 {
     client.BaseAddress = new Uri("https://api-pub.bitfinex.com/v2/");
@@ -34,6 +37,9 @@ builder.Services.AddScoped<IRestClient>(provider =>
 builder.Services.AddSingleton<IDataMapper<decimal[], Trade>, BitfinexTradeMapper>();
 builder.Services.AddSingleton<IDataMapper<decimal[], Candle>, BitfinexCandleMapper>();
 builder.Services.AddSingleton<IDataMapper<decimal[], Ticker>, BitfinexTickerMapper>();
+
+builder.Services.AddScoped<IPortfolioCalculator, PortfolioCalculatorService>();
+builder.Services.AddSingleton<IExchange, BitfinexExchange>();
 
 var app = builder.Build();
 
