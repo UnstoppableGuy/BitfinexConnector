@@ -16,9 +16,7 @@ namespace BitfinexConnector.UI
         private IHost _host;
 
         public App()
-        {
-            // Удаляем StartupUri из XAML и обрабатываем запуск вручную
-        }
+        {        }
 
         protected override async void OnStartup(StartupEventArgs e)
         {
@@ -90,7 +88,7 @@ namespace BitfinexConnector.UI
                         // Register clients
                         services.AddSingleton<IRestClient, RestClient>();
                         services.AddSingleton<IWebSocketClient, WebSocketClient>();
-                        //services.AddSingleton<ITestConnector, Connector>();
+                        services.AddSingleton<ITestConnector, Connector>();
 
                         // Register exchange and portfolio calculator
                         services.AddSingleton<IExchange, BitfinexExchange>();

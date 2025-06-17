@@ -23,7 +23,7 @@ namespace BitfinexConnector.UI
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly IWebSocketClient _connector;
+        private readonly ITestConnector _connector;
         private readonly IPortfolioCalculator _portfolioCalculator;
         private readonly ILogger<MainWindow> _logger;
         private DispatcherTimer _statusTimer { get; set; }
@@ -46,7 +46,7 @@ namespace BitfinexConnector.UI
         private int _totalTradesCount = 0;
         private int _totalCandlesCount = 0;
 
-        public MainWindow(IWebSocketClient connector, IPortfolioCalculator portfolioCalculator, ILogger<MainWindow> logger)
+        public MainWindow(ITestConnector connector, IPortfolioCalculator portfolioCalculator, ILogger<MainWindow> logger)
         {
             InitializeComponent();
 
