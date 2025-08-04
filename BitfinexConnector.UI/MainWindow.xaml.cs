@@ -183,36 +183,37 @@ namespace BitfinexConnector.UI
                 RefreshPortfolioButton.IsEnabled = false;
                 RefreshPortfolioButton.Content = "🔄 Calculating...";
 
+                // Используем PortfolioCalculator вместо упрощенного метода
                 var balances = await _portfolioCalculator.CalculatePortfolioBalanceAsync(_holdings);
-                decimal totalValue = 0;
 
-                // Update portfolio display with USD values
+                decimal totalValue = balances.ContainsKey("USD") ? balances["USD"] : 0;
+
                 foreach (var item in Portfolio)
                 {
                     if (_holdings.TryGetValue(item.Currency, out var amount))
                     {
-                        var rate = await GetExchangeRateToUSD(item.Currency);
-                        item.ValueInUSD = amount * rate;
-                        totalValue += item.ValueInUSD;
+                        var singleCurrencyHolding = new Dictionary<string, decimal> { { item.Currency, amount } };
+                        var singleCurrencyBalance = await _portfolioCalculator.CalculatePortfolioBalanceAsync(singleCurrencyHolding);
+
+                        item.ValueInUSD = singleCurrencyBalance.ContainsKey("USD") ? singleCurrencyBalance["USD"] : 0;
                     }
                 }
 
-                // Calculate percentages
                 foreach (var item in Portfolio)
                 {
                     item.PercentageOfTotal = totalValue > 0 ? item.ValueInUSD / totalValue : 0;
                 }
 
-                // Update UI summary
+                // Обновляем UI сводку
                 TotalValueText.Text = totalValue.ToString("C");
                 LastUpdatedText.Text = DateTime.Now.ToString("HH:mm:ss");
 
                 ConnectionStatusText.Text = $"Portfolio updated - Total: {totalValue:C}";
-                _logger.LogInformation("Portfolio refreshed successfully. Total value: {TotalValue:C}", totalValue);
+                _logger.LogInformation("Portfolio refreshed successfully using PortfolioCalculator. Total value: {TotalValue:C}", totalValue);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error refreshing portfolio");
+                _logger.LogError(ex, "Error refreshing portfolio using PortfolioCalculator");
                 MessageBox.Show($"Portfolio refresh failed: {ex.Message}", "Portfolio Error",
                                MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -221,19 +222,6 @@ namespace BitfinexConnector.UI
                 RefreshPortfolioButton.IsEnabled = true;
                 RefreshPortfolioButton.Content = "🔄 Refresh Portfolio";
             }
-        }
-
-        private async Task<decimal> GetExchangeRateToUSD(string currency)
-        {
-            // Simplified exchange rates - in production, get from API
-            return currency switch
-            {
-                "BTC" => 45000m,
-                "XRP" => 0.5m,
-                "XMR" => 150m,
-                "DASH" => 80m,
-                _ => 1m
-            };
         }
 
         private void OnNewBuyTrade(Trade trade)
